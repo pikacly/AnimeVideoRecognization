@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eb42d6dd-1826-4c19-8166-3d7248adb301" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/AnimeVideoRecognization.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AnimeVideoRecognization.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/Project/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Project/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/infos/anchors.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/infos/anchors.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/infos/classes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/infos/classes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/infos/readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/infos/readme.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/infos/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/infos/test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/infos/train.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/infos/train.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/infos/val.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/infos/val.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Project/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/models/readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/models/readme.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/predict.py" beforeDir="false" afterPath="$PROJECT_DIR$/Project/predict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/prepare.py" beforeDir="false" afterPath="$PROJECT_DIR$/Project/prepare.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/recognize.py" beforeDir="false" afterPath="$PROJECT_DIR$/Project/recognize.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/Project/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Project/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-    </list>
+    <list default="true" id="eb42d6dd-1826-4c19-8166-3d7248adb301" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,16 +10,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Project/recognize.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="114">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/imagehash/__init__.py">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -114,7 +96,7 @@
       <updated>1571585020346</updated>
       <workItem from="1571585022559" duration="344000" />
       <workItem from="1572420067413" duration="731000" />
-      <workItem from="1572788855832" duration="16000" />
+      <workItem from="1572788855832" duration="649000" />
     </task>
     <task id="LOCAL-00001" summary="初始化项目">
       <created>1571585194873</created>
@@ -127,7 +109,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1091000" />
+    <option name="totallyTimeSpent" value="1724000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -220,13 +202,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Project/recognize.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="114">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/imagehash/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
 </project>
