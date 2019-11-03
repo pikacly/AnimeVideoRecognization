@@ -22,13 +22,14 @@ from model import yolo_eval, yolo_body, tiny_yolo_body, letterbox_image
 
 class YOLO(object):
     _defaults = {
-        "model_path": 'models/weights.h5',
+        # "model_path": 'models/weights.h5',
+        "model_path": '../../weights.h5',
         "anchors_path": 'infos/anchors.txt',
         "classes_path": 'infos/classes.txt',
-        "score" : 0.25,
-        "iou" : 0.4,
-        "model_image_size" : (416, 416),
-        "gpu_num" : 1,
+        "score": 0.25,
+        "iou": 0.4,
+        "model_image_size": (416, 416),
+        "gpu_num": 1,
     }
     
     @classmethod
