@@ -4,6 +4,7 @@ import cv2
 from PIL import Image
 from predict import YOLO
 from progressbar import ProgressBar
+import imagehash
 
 path_images = "videoImages/"
 yolo = YOLO()
@@ -54,23 +55,25 @@ if __name__ == '__main__':
     root_dir = "../../resources"
 
     # 遍历根目录下的文件夹
-    # for dir in os.listdir(root_dir):
-    #     dir_full_path = os.path.join(root_dir, dir)
-    #     # 如果文件是目录
-    #     if os.path.isdir(dir_full_path):
-    #         # 遍历目录下的所有视频资源
-    #         print("reading {}...".format(dir_full_path))
+    for dir in os.listdir(root_dir):
+        dir_full_path = os.path.join(root_dir, dir)
+        # 如果文件是目录
+        if os.path.isdir(dir_full_path):
+            # 遍历目录下的所有视频资源
+            print("reading {}...".format(dir_full_path))
 
-    #         files = os.listdir(dir_full_path)
-    #         count = 0
-    #         p = ProgressBar()
-    #         for i in p(range(len(files))):
-    #             file = files[count]
-    #             if not file.startswith("."):
-    #                 file_name = file.split(".")[0]
-    #                 file_full_path = os.path.join(dir_full_path, file)
-    #                 get_frame(file_full_path, "{}-{}".format(dir, file_name), 120)
-    #             count += 1
+            files = os.listdir(dir_full_path)
+            count = 0
+            p = ProgressBar()
+            for i in p(range(len(files))):
+                file = files[count]
+                if not file.startswith("."):
+                    file_name = file.split(".")[0]
+                    file_full_path = os.path.join(dir_full_path, file)
+                    get_frame(file_full_path, "{}-{}".format(dir, file_name), 120)
+                    # 删除资源文件
+                    os.remove(file_full_path)
+                count += 1
 
     # 识别所有帧数里的人脸并保存至faces文件夹
     images = os.listdir(path_images)
