@@ -71,6 +71,8 @@ if __name__ == '__main__':
                     file_name = file.split(".")[0]
                     file_full_path = os.path.join(dir_full_path, file)
                     get_frame(file_full_path, "{}-{}".format(dir, file_name), 120)
+                    # 删除资源文件
+                    os.remove(file_full_path)
                 count += 1
 
     # 识别所有帧数里的人脸并保存至faces文件夹
