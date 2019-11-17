@@ -32,7 +32,6 @@ start = time.clock()
 
 test = [average_hash(Image.open("D:/YOLO/faces_test/LL-01-7560-1.jpg"), hash_size=6)]
 X = np.array(fhashlist)
-
 tree = KDTree(X)
 start = time.clock()
 dist, ind = tree.query(test, k=10)
