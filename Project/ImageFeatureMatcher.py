@@ -95,7 +95,7 @@ def batch_extractor_annoy(images_path, pickled_db_path="features.ann"):
 
     # saving all our feature vectors in pickled file
     # 将存于pickled 文件
-    with open("ann_dict", 'wb') as fp:
+    with open("ann_dict.dict", 'wb') as fp:
         pickle.dump(result, fp)
 
 
@@ -132,3 +132,5 @@ class Matcher(object):
         time_end = time.time()
         print("costs {}s".format(time_end - time_start))
         return nearest_img_paths, img_distances[nearest_ids].tolist()
+
+

@@ -4,7 +4,6 @@ import cv2
 from PIL import Image
 from predict import YOLO
 from progressbar import ProgressBar
-import imagehash
 
 path_images = "videoImages/"
 yolo = YOLO()
@@ -42,8 +41,8 @@ def recog_faces(file: str):
             # 番剧名-集数-帧数-序号.jpg
             cropped.save("faces/" + file.split(".")[0] + "-{}.jpg".format(i))
 
-        if len(boxes) == 0:
-            os.remove(image_full_path)
+        # if len(boxes) == 0:
+        #     os.remove(image_full_path)
         # else:
         #     shutil.move(image_full_path, "oral_frames")
     except IOError:
@@ -70,9 +69,9 @@ if __name__ == '__main__':
                 if not file.startswith("."):
                     file_name = file.split(".")[0]
                     file_full_path = os.path.join(dir_full_path, file)
-                    get_frame(file_full_path, "{}-{}".format(dir, file_name), 120)
+                    get_frame(file_full_path, "{}-{}".format(dir, file_name), 60)
                     # 删除资源文件
-                    os.remove(file_full_path)
+                    # os.remove(file_full_path)
                 count += 1
 
     # 识别所有帧数里的人脸并保存至faces文件夹
@@ -84,4 +83,3 @@ if __name__ == '__main__':
         if image.endswith(".jpg"):
             recog_faces(image)
         count += 1
-
