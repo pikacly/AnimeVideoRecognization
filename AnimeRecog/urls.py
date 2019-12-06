@@ -20,5 +20,7 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/',views.index),#主页
+    path('index/', views.index),  # 主页
+    path('test/', views.image_test),  # 图片上传测试
+    path('upload-image/', views.upload_image),  # ajax
 ]

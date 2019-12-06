@@ -1,5 +1,5 @@
-from predict import YOLO
-from train import vgg16_extract_features
+from Project.predict import YOLO
+from Project.train import vgg16_extract_features
 import time
 
 yolo = YOLO()

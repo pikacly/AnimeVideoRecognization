@@ -17,15 +17,15 @@ from keras.models import load_model
 from keras.utils import multi_gpu_model
 from timeit import default_timer as timer
 
-from model import yolo_eval, yolo_body, tiny_yolo_body, letterbox_image
+from Project.YOLO.model import yolo_eval, yolo_body, tiny_yolo_body, letterbox_image
 
 
 class YOLO(object):
     _defaults = {
         # "model_path": 'models/weights.h5',
-        "model_path": '../../weights.h5',
-        "anchors_path": 'infos/anchors.txt',
-        "classes_path": 'infos/classes.txt',
+        "model_path": '../weights.h5',
+        "anchors_path": 'Project/infos/anchors.txt',
+        "classes_path": 'Project/infos/classes.txt',
         "score": 0.25,
         "iou": 0.4,
         "model_image_size": (416, 416),
