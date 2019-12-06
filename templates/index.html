@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body style="background-color:white">
+<div id="base">
+    <div id="icon">
+        <img height="230" id = "icon1" src="/static/shadow/1.png" style="position:absolute; left:3%; top:3%;" width="250"/>
+        <img height="230" id = "icon2" src="/static/shadow/2.png" style="position:absolute; left:25%; top:2%;" width="169"/>
+        <img height="230" id = "icon3" src="/static/shadow/3.png" style="position:absolute; left:43%; top:3%;" width="162"/>
+        <img height="230" id = "icon4" src="/static/shadow/4.png" style="position:absolute; left:63%; top:3%;" width="157"/>
+        <img height="230" id = "icon5" src="/static/shadow/5.png" style="position:absolute; left:83%; top:3%;" width="77"/>
+
+    </div>
+
+    <div id="question" style="position:absolute; left:50%; top:50%;font-size:50px;margin-top: -150px;margin-left: -350px;color:#f45a8d">
+        <h1>
+            Who are they?
+        </h1>
+    </div>
+
+    <div id="continue" style="position:absolute; left:80%; top:100%;font-size:30px;margin-top: -150px;margin-left: -350px;color:#f45a8d">
+        <h1>
+            To be continued . . .
+        </h1>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript">
+    var img = document.getElementById("icon9");
+    img.style.display = "inline";
+    setTimeout(function() {img.style.display = "none";},5000);
+</script>
+</html>
