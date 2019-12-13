@@ -1,8 +1,10 @@
 from Project.predict import YOLO
 from Project.train import vgg16_extract_features
+from PIL import Image
 import time
 
 yolo = YOLO()
+yolo.detect_image(Image.open("Project/test.jpg"))
 img_size0 = 60
 
 
@@ -30,6 +32,7 @@ def vgg_annoy_match(img, annoy_index, annoy_dict):
         img = img.convert("RGB")
     elif img.size != (img_size0, img_size0):
         img = img.resize((img_size0, img_size0))
+
     features = vgg16_extract_features(img)
     res = []
 

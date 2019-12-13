@@ -11,6 +11,7 @@ import colorsys
 import glob
 import numpy as np
 from PIL import Image
+import tensorflow as tf
 from keras import backend as K
 from keras.layers import Input
 from keras.models import load_model
@@ -49,6 +50,9 @@ class YOLO(object):
         self.anchors = self._get_anchors()
         self.sess = K.get_session()
         self.boxes, self.scores, self.classes = self.generate()
+
+        self.graph = tf.get_default_graph()
+
         pass
     
     def _get_class(self):
@@ -74,11 +78,17 @@ class YOLO(object):
         num_classes = len(self.class_names)
         is_tiny_version = num_anchors==6 # default setting
         try:
+            # print("yolo model loading ...")
             self.yolo_model = load_model(model_path, compile=False)
+
         except:
             self.yolo_model = tiny_yolo_body(Input(shape=(None,None,3)), num_anchors//2, num_classes) \
                 if is_tiny_version else yolo_body(Input(shape=(None,None,3)), num_anchors//3, num_classes)
             self.yolo_model.load_weights(self.model_path) # make sure model, anchors and classes match
+            # print("yolo model load done ...")
+
+            # print("yolo model test...")
+
         else:
             assert self.yolo_model.layers[-1].output_shape[-1] == \
                 num_anchors/len(self.yolo_model.output) * (num_classes + 5), \
@@ -104,6 +114,7 @@ class YOLO(object):
         boxes, scores, classes = yolo_eval(self.yolo_model.output, self.anchors,
                 len(self.class_names), self.input_image_shape,
                 score_threshold=self.score, iou_threshold=self.iou)
+
         return boxes, scores, classes
 
     def detect_image(self, image):
@@ -119,17 +130,20 @@ class YOLO(object):
             boxed_image = letterbox_image(image, new_image_size)
         image_data = np.array(boxed_image, dtype='float32')
 
-        # print(image_data.shape)
+
         image_data /= 255.
         image_data = np.expand_dims(image_data, 0)  # Add batch dimension.
+        # print(image.size[1], image.size[0])
+        # print(image_data.shape)
 
-        out_boxes, out_scores, out_classes = self.sess.run(
-            [self.boxes, self.scores, self.classes],
-            feed_dict={
-                self.yolo_model.input: image_data,
-                self.input_image_shape: [image.size[1], image.size[0]],
-                K.learning_phase(): 0
-            })
+        with self.graph.as_default():
+            out_boxes, out_scores, out_classes = self.sess.run(
+                [self.boxes, self.scores, self.classes],
+                feed_dict={
+                    self.yolo_model.input: image_data,
+                    self.input_image_shape: [image.size[1], image.size[0]],
+                    K.learning_phase(): 0
+                })
 
         # print('Found {} boxes for {}'.format(len(out_boxes), 'img'))
 
@@ -175,108 +189,108 @@ class YOLO(object):
         # print(end - start)
         # return image
 
-    def close_session(self):
-        self.sess.close()
-        pass
+    # def close_session(self):
+    #     self.sess.close()
+    #     pass
     
     pass
 
-
-def detect_video(yolo, video_path, output_path=""):
-    import cv2
-    vid = cv2.VideoCapture(video_path)
-    if not vid.isOpened():
-        raise IOError("Couldn't open webcam or video")
-    video_FourCC    = int(vid.get(cv2.CAP_PROP_FOURCC))
-    video_fps       = vid.get(cv2.CAP_PROP_FPS)
-    video_size      = (int(vid.get(cv2.CAP_PROP_FRAME_WIDTH)),
-                        int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-    isOutput = True if output_path != "" else False
-    if isOutput:
-        print("!!! TYPE:", type(output_path), type(video_FourCC), type(video_fps), type(video_size))
-        out = cv2.VideoWriter(output_path, video_FourCC, video_fps, video_size)
-    accum_time = 0
-    curr_fps = 0
-    fps = "FPS: ??"
-    prev_time = timer()
-    while True:
-        return_value, frame = vid.read()
-        image = Image.fromarray(frame)
-        image = yolo.detect_image(image)
-        result = np.asarray(image)
-        curr_time = timer()
-        exec_time = curr_time - prev_time
-        prev_time = curr_time
-        accum_time = accum_time + exec_time
-        curr_fps = curr_fps + 1
-        if accum_time > 1:
-            accum_time = accum_time - 1
-            fps = "FPS: " + str(curr_fps)
-            curr_fps = 0
-        cv2.putText(result, text=fps, org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-                    fontScale=0.50, color=(255, 0, 0), thickness=2)
-        cv2.namedWindow("result", cv2.WINDOW_NORMAL)
-        cv2.imshow("result", result)
-        if isOutput:
-            out.write(result)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    yolo.close_session()
-    pass
-
-def predict_testset(yolo):
-    test_path = './infos/test.txt'
-    outdir = "./outputs"
-    test = []
-    with open(test_path, 'r') as f:
-        lines = f.readlines()
-        for line in lines:
-            infos = line.split()
-            test.append(infos[0])
-            pass
-        pass
-    for path in test:    
-        jpgfile = glob.glob(path)[0]
-        img = Image.open(jpgfile)
-        img = yolo.detect_image(img)
-        img.save(os.path.join(outdir, os.path.basename(jpgfile)))
-        pass
-    pass
-
-def predict_valset(yolo):
-    test_path = './infos/val.txt'
-    outdir = "./outputs"
-    test = []
-    with open(test_path, 'r') as f:
-        lines = f.readlines()
-        for line in lines:
-            infos = line.split()
-            test.append(infos[0])
-            pass
-        pass
-    for path in test:    
-        jpgfile = glob.glob(path)[0]
-        img = Image.open(jpgfile)
-        img = yolo.detect_image(img)
-        img.save(os.path.join(outdir, os.path.basename(jpgfile)))
-        pass
-    pass
-
-def predict_trainset(yolo):
-    test_path = './infos/train.txt'
-    outdir = "./outputs"
-    test = []
-    with open(test_path, 'r') as f:
-        lines = f.readlines()
-        for line in lines:
-            infos = line.split()
-            test.append(infos[0])
-            pass
-        pass
-    for path in test:    
-        jpgfile = glob.glob(path)[0]
-        img = Image.open(jpgfile)
-        img = yolo.detect_image(img)
-        img.save(os.path.join(outdir, os.path.basename(jpgfile)))
-        pass
-    pass
+#
+# def detect_video(yolo, video_path, output_path=""):
+#     import cv2
+#     vid = cv2.VideoCapture(video_path)
+#     if not vid.isOpened():
+#         raise IOError("Couldn't open webcam or video")
+#     video_FourCC    = int(vid.get(cv2.CAP_PROP_FOURCC))
+#     video_fps       = vid.get(cv2.CAP_PROP_FPS)
+#     video_size      = (int(vid.get(cv2.CAP_PROP_FRAME_WIDTH)),
+#                         int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+#     isOutput = True if output_path != "" else False
+#     if isOutput:
+#         print("!!! TYPE:", type(output_path), type(video_FourCC), type(video_fps), type(video_size))
+#         out = cv2.VideoWriter(output_path, video_FourCC, video_fps, video_size)
+#     accum_time = 0
+#     curr_fps = 0
+#     fps = "FPS: ??"
+#     prev_time = timer()
+#     while True:
+#         return_value, frame = vid.read()
+#         image = Image.fromarray(frame)
+#         image = yolo.detect_image(image)
+#         result = np.asarray(image)
+#         curr_time = timer()
+#         exec_time = curr_time - prev_time
+#         prev_time = curr_time
+#         accum_time = accum_time + exec_time
+#         curr_fps = curr_fps + 1
+#         if accum_time > 1:
+#             accum_time = accum_time - 1
+#             fps = "FPS: " + str(curr_fps)
+#             curr_fps = 0
+#         cv2.putText(result, text=fps, org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+#                     fontScale=0.50, color=(255, 0, 0), thickness=2)
+#         cv2.namedWindow("result", cv2.WINDOW_NORMAL)
+#         cv2.imshow("result", result)
+#         if isOutput:
+#             out.write(result)
+#         if cv2.waitKey(1) & 0xFF == ord('q'):
+#             break
+#     yolo.close_session()
+#     pass
+#
+# def predict_testset(yolo):
+#     test_path = './infos/test.txt'
+#     outdir = "./outputs"
+#     test = []
+#     with open(test_path, 'r') as f:
+#         lines = f.readlines()
+#         for line in lines:
+#             infos = line.split()
+#             test.append(infos[0])
+#             pass
+#         pass
+#     for path in test:
+#         jpgfile = glob.glob(path)[0]
+#         img = Image.open(jpgfile)
+#         img = yolo.detect_image(img)
+#         img.save(os.path.join(outdir, os.path.basename(jpgfile)))
+#         pass
+#     pass
+#
+# def predict_valset(yolo):
+#     test_path = './infos/val.txt'
+#     outdir = "./outputs"
+#     test = []
+#     with open(test_path, 'r') as f:
+#         lines = f.readlines()
+#         for line in lines:
+#             infos = line.split()
+#             test.append(infos[0])
+#             pass
+#         pass
+#     for path in test:
+#         jpgfile = glob.glob(path)[0]
+#         img = Image.open(jpgfile)
+#         img = yolo.detect_image(img)
+#         img.save(os.path.join(outdir, os.path.basename(jpgfile)))
+#         pass
+#     pass
+#
+# def predict_trainset(yolo):
+#     test_path = './infos/train.txt'
+#     outdir = "./outputs"
+#     test = []
+#     with open(test_path, 'r') as f:
+#         lines = f.readlines()
+#         for line in lines:
+#             infos = line.split()
+#             test.append(infos[0])
+#             pass
+#         pass
+#     for path in test:
+#         jpgfile = glob.glob(path)[0]
+#         img = Image.open(jpgfile)
+#         img = yolo.detect_image(img)
+#         img.save(os.path.join(outdir, os.path.basename(jpgfile)))
+#         pass
+#     pass

@@ -2,12 +2,14 @@ from keras.applications.vgg16 import VGG16
 from keras.preprocessing import image
 from keras.applications.vgg16 import preprocess_input
 from annoy import AnnoyIndex
+import tensorflow as tf
 import numpy as np
 import os
 import time
 import pickle
 
 model = VGG16(weights='imagenet', include_top=False)
+graph = tf.get_default_graph()
 img_size0 = 60
 img_size = (img_size0, img_size0)
 
@@ -24,7 +26,8 @@ def vgg16_extract_features(img):
     x = np.expand_dims(x, axis=0)
     x = preprocess_input(x)
 
-    features = model.predict(x)
+    with graph.as_default():
+        features = model.predict(x)
     return features
 
 
