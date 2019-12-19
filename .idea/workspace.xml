@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb42d6dd-1826-4c19-8166-3d7248adb301" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/result.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/result_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/AnimeVideoRecognization.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AnimeVideoRecognization.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AnimeRecog/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnimeRecog/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AnimeRecog/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnimeRecog/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/kdtree.py" beforeDir="false" afterPath="$PROJECT_DIR$/Project/kdtree.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/renlian" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,11 +40,23 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AnimeRecog/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="437">
+              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+              <folding>
+                <element signature="e#635#667#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/result_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="35" column="86" selection-start-line="35" selection-start-column="86" selection-end-line="35" selection-end-column="86" />
+            <state relative-caret-position="154">
+              <caret line="25" column="25" lean-forward="true" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -61,7 +65,7 @@
         <entry file="file://$PROJECT_DIR$/AnimeRecog/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="471">
-              <caret line="31" column="27" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+              <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -198,7 +202,7 @@
       <workItem from="1574404166978" duration="374000" />
       <workItem from="1576218033013" duration="990000" />
       <workItem from="1576681390267" duration="1615000" />
-      <workItem from="1576744451093" duration="6399000" />
+      <workItem from="1576744451093" duration="6656000" />
     </task>
     <task id="LOCAL-00001" summary="初始化项目">
       <created>1571585194873</created>
@@ -228,17 +232,24 @@
       <option name="project" value="LOCAL" />
       <updated>1573980178952</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="添加结果页面，修改了urls views 和templates，有一点小bug">
+      <created>1576783884602</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1576783884602</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13068000" />
+    <option name="totallyTimeSpent" value="13325000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20442359" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20442359" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -251,7 +262,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32905984" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.2733711" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="10" side_tool="true" visible="true" weight="0.6359773" />
       <window_info anchor="bottom" id="Terminal" order="11" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -310,7 +321,8 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="初始化项目" />
     <MESSAGE value="kdtree添加" />
-    <option name="LAST_COMMIT_MESSAGE" value="kdtree添加" />
+    <MESSAGE value="添加结果页面，修改了urls views 和templates，有一点小bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加结果页面，修改了urls views 和templates，有一点小bug" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -456,15 +468,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AnimeRecog/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
-          <folding>
-            <element signature="e#635#667#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/templates/test.html">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/result.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -473,13 +478,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/test.html">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/AnimeRecog/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+          <folding>
+            <element signature="e#635#667#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AnimeRecog/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="471">
-          <caret line="31" column="27" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+          <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
@@ -488,8 +500,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/result_detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="35" column="86" selection-start-line="35" selection-start-column="86" selection-end-line="35" selection-end-column="86" />
+        <state relative-caret-position="154">
+          <caret line="25" column="25" lean-forward="true" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
         </state>
       </provider>
     </entry>
