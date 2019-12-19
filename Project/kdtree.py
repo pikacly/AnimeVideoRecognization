@@ -1,8 +1,7 @@
-import numpy as np
-import numpy as np
 import os
 import time
-from sklearn.neighbors import KDTree
+
+import numpy as np
 from sklearn.neighbors import KDTree
 
 
@@ -40,3 +39,11 @@ print(dist)
 print(ind)
 print(X[ind])
 print ("read: %f s" % (end - start))
+
+from keras.applications.vgg16 import VGG16
+from keras.preprocessing import image
+import numpy as np
+img_path="D:/YOLO/faces/BSZG-01-3480-0.jpg"
+model=VGG16(weights="imagenet",include_top=False)
+img=image.load_img(img_path,target_size=(224,224))
+x=image.img_to_array(img)
