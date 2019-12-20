@@ -17,8 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from . import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('index/',views.index),#主页
+    path('open/',views.open),#打开图片
     path('result/<list:result_list>/',result, name='result'),
     path('result_detail',result_detail, name='exception_handle_process'),
 ]

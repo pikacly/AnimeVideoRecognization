@@ -77,6 +77,10 @@ def index(request):
     # 主页
     return render(request, 'index.html')
 
+def open(request):#打开图片
+    return render(request, 'open.html')
+
+
 
 a = AnnoyIndex(512)  # fixed
 a.load("../data/models/faces_60.ann")
