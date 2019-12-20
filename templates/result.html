@@ -1,67 +1,105 @@
-{% extends 'index.html' %}
-{% block content %}
- <div class="breadcrumbs">
-        <div class="breadcrumbs-inner">
-            <div class="row m-0">
-                <div class="col-sm-4">
-                    <div class="page-header float-left">
-                        <div class="page-title">
-                            <h1>动漫视频检索 &emsp;&emsp;&emsp;</h1>
-                        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>open</title>
+</head>
+<body style="background-color:#f45a8d;">
+<div id="base">
+    <div id="question"
+         style="position:absolute; left:57%; top:20%;font-size:35px;margin-top: -150px;margin-left: -350px;color:#f45a8d;z-index: 999">
+        <h1>
+            Who are you?
+        </h1>
+    </div>
+    <img border="4" id="b" src="/static/shadow/b.png"
+         style="position:absolute; left:20%; top:3%;border-radius: 10px;border-color: antiquewhite"/>
+</div>
+
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>动漫视频检索 &emsp;&emsp;&emsp;</h1>
                     </div>
                 </div>
-                <div class="col-sm-8">
-                    <div class="page-header float-right">
-                        <div class="page-title">
-                            <ol class="breadcrumb text-right">
-                                <li><a >主页</a></li>
-                            </ol>
-                        </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a>主页</a></li>
+                        </ol>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="content">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>检索结果查看</h4>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>检索结果查看</h4>
+                </div>
+                <div class="card-body">
+                    <div class="tab-pane fade show active" id="pills-seg" role="tabpanel"
+                         aria-labelledby="pills-seg-tab">
+                        <div class="card-header">动漫视频{{order.number}}</div>
+                        <div class="table-stats order-table ov-h" style="width: 60%; float:left; display: inline-block">
+                            <h4>已上传图片检测出来的头如下：</h4>
+                            {% for head in headlist %}
+                            <img src=head>
+                            {% endfor %}
+
+                            <h4>检测结果如下：</h4>
+                            {% for result_list in result_big_list %}
+                            <video id="video" controls>
+                                <!--                                        <source src="{{i.video}}" type="video/mp4">-->
+                            </video>
+                            <script>
+                                let video = document.getElementById("video");
+                                video.oncanplay(e => {
+                                    video.currentTime = 50; // 控制播放进度
+                                    video.play();
+                                })
+                            </script>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="serial">#</th>
+                                    <th class="avatar">番剧名</th>
+                                    <th>集数</th>
+                                    <th>帧数</th>
+                                    <th>人脸序号</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in result_list %}
+                                <tr>
+                                    <td class="serial">{{ forloop.counter }}.</td>
+                                    <td> {{i.name}}</td>
+                                    <td><span class="name">{{i.number}}</span></td>
+                                    <td>{{i.cutnum}}</td>
+                                    <td><span class="product">{{i.headnum}}</span></td>
+                                    <td><img src={{i.path}} style="width: 400px"></td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            {% endfor %}
+                        </div> <!-- /.table-stats -->
                     </div>
-                    <div class="card-body">
-                        <div class="tab-pane fade show active" id="pills-seg" role="tabpanel" aria-labelledby="pills-seg-tab">
-                            <div class="card-header">动漫视频{{order.number}}</div>
-                                <div class="table-stats order-table ov-h" style="width: 60%; float:left; display: inline-block">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="serial">#</th>
-                                                <th class="avatar">番剧名</th>
-                                                <th>集数</th>
-                                                <th>帧数</th>
-                                                <th>人脸序号</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for i in result_list %}
-                                            <tr>
-                                                <td class="serial">{{ forloop.counter }}.</td>
-                                                <td> {{i.name}} </td>
-                                                <td>  <span class="name">{{i.number}}</span> </td>
-                                                <td>{{i.cutnum}}</td>
-                                                <td> <span class="product">{{i.headnum}}</span> </td>
-                                                <td><a href="{% url 'result_detail' i %}" class="btn btn-primary" style="height:50%">查看详情</a></td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div> <!-- /.table-stats -->
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-{% endblock %}
+</body>
+</html>

@@ -4,7 +4,6 @@ from PIL import Image
 import time
 
 yolo = YOLO()
-yolo.detect_image(Image.open("Project/test.jpg"))
 img_size0 = 60
 
 
@@ -15,16 +14,17 @@ def recognize(img) -> tuple:
     global yolo
     res = []
 
-    start = time.time()
+    # start = time.time()
     boxes, scores = yolo.detect_image(img)
     for i, box in enumerate(boxes):
         top, left, bottom, right = box
         cropped = img.crop((left, top, right, bottom))
         res.append(cropped)
-    end = time.time()
-    print("cost {}s".format(end - start))
+    # end = time.time()
+    # print("cost {}s".format(end - start))
 
-    return res, end - start
+    # return res, end - start
+    return res
 
 
 def vgg_annoy_match(img, annoy_index, annoy_dict):
@@ -43,4 +43,4 @@ def vgg_annoy_match(img, annoy_index, annoy_dict):
     end = time.time()
     print("cost {}s".format(end - start))
 
-    return res, end - start
+    return res

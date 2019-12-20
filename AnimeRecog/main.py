@@ -1,11 +1,13 @@
-from Project.predict import YOLO
-from keras.applications.vgg16 import VGG16
-from keras.preprocessing import image
-from keras.applications.vgg16 import preprocess_input
-from annoy import AnnoyIndex
-import time
 import pickle
+import time
+
 import numpy as np
+import tensorflow as tf
+from Project.predict import YOLO
+from annoy import AnnoyIndex
+from keras.applications.vgg16 import VGG16
+from keras.applications.vgg16 import preprocess_input
+from keras.preprocessing import image
 
 
 class Processor(object):
@@ -15,6 +17,7 @@ class Processor(object):
 
         self.img_size0 = 60
         self.vgg16_model = VGG16(weights='imagenet', include_top=False)
+        self.vgg16_graph = tf.get_default_graph()
         print("*" * 6 + "vgg16 model loaded" + "*" * 6)
 
         self.a = AnnoyIndex(512)  # fixed
@@ -41,7 +44,7 @@ class Processor(object):
         end = time.time()
         print("cost {}s".format(end - start))
 
-        return res, end - start
+        return res
 
     def vgg_annoy_match(self, img):
         if img.mode.lower() != "rgb":
@@ -59,7 +62,7 @@ class Processor(object):
         end = time.time()
         print("cost {}s".format(end - start))
 
-        return res, end - start
+        return res
 
     def vgg16_extract_features(self, img):
         # img -> PIL.Image
@@ -68,8 +71,9 @@ class Processor(object):
         x = np.expand_dims(x, axis=0)
         x = preprocess_input(x)
 
-        features = self.vgg16_model.predict(x)
-        return features
+        with self.vgg16_graph.as_default():
+            features = self.vgg16_model.predict(x)
+            return features
 
 
-# processor = Processor()
+processor = Processor()

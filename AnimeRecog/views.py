@@ -1,76 +1,14 @@
 # 番剧名 - 集数 - 帧数 - 序号
-import re
-from collections import defaultdict
-
-import matplotlib.image as mpimg  # mpimg 用于读取图片
-
-# lena = mpimg.imread('lena.png')
-
-
-def result(req, result_list):
-
-    result_dict = defaultdict(dict)
-    for i in result_list:
-        pathlist = re.split(r"-", str(i))
-        result_dict[i]["name"] = pathlist[0]
-        result_dict[i]["number"] = pathlist[1]
-        result_dict[i]["cutnum"] = pathlist[2]
-        result_dict[i]["headnum"] = pathlist[3]
-        result_dict[i]["path"] = i
-    return render(req, result_list)
-
-
-def result1(req, i):
-    pathlist = re.split(r"-", str(i))
-    result = {}
-    result["name"] = pathlist[0]
-    result["number"] = pathlist[1]
-    result["cutnum"] = pathlist[2]
-    result["headnum"] = pathlist[3]
-    result["path"] = str(i)  # 此处可以修改地址
-    pic = mpimg.imread(path1)
-
-    return render(req, result, pic)
-
-
-from django.core.files.base import ContentFile
-from django.http import HttpResponse
-from django.shortcuts import render
-from annoy import AnnoyIndex
-from Project.match import *
-from PIL import Image
-# from AnimeRecog.main import processor
+from AnimeRecog.main import processor
 import pickle
+import re
+import time
 
-
-def img_match(img):
-    # img -> PIL.Image
-    res, t0 = recognize(img)
-    if len(res) == 0:
-        return "400"
-
-    global a, d
-    img = res[0]
-    return vgg_annoy_match(img.resize((60, 60)), a, d)
-
-
-def image_test(request):
-    return render(request, "test.html")
-
-
-def upload_image(request):
-    if request.method.upper() == "POST":
-        img = request.FILES.get("images")
-        image2 = Image.open(ContentFile(img.read()))
-
-        image2.save("static/test.jpg")
-        res, time = img_match(image2)
-        print(res)
-
-        # test
-        # res, t = processor.recognize(image2)
-        # print(res)
-        return HttpResponse("success")
+from PIL import Image
+from annoy import AnnoyIndex
+from django.core.files.base import ContentFile
+from django.shortcuts import redirect
+from django.shortcuts import render
 
 
 def index(request):
@@ -78,12 +16,88 @@ def index(request):
     return render(request, 'index.html')
 
 
-def open_img(request): # 打开图片
+def open_img(request):  # 打开图片
     return render(request, 'open.html')
 
 
+def upload_image(request):
+    if request.method.upper() == "POST":
+        img = request.FILES.get("images")
+        image = Image.open(ContentFile(img.read()))
 
-a = AnnoyIndex(512)  # fixed
-a.load("../data/models/faces_60.ann")
-d = pickle.load(open("../data/dicts/faces_60.dict", "rb"))
-# img_match(Image.open("Project/test.jpg"))
+        key = generate_key()
+        image.save("static/images/{}.png".format(key))
+        print(key)
+
+        return redirect("/result?key=" + key)
+
+
+names_dict = pickle.load(open("../data/names.d", "rb"))
+
+
+def result(req):
+    # 【[{name:,number:,cutnum,headnum:,path:,}...10个]，。。。3个】
+    key = req.GET.get("key")
+    img_uploaded = Image.open("static/images/{}.png".format(key))
+    img_result, img_result2 = img_match(img_uploaded)
+
+    # 取前三个结果
+    if len(img_result2) > 3:
+        img_result = img_result[:3]
+        img_result2 = img_result2[:3]
+    result_size = len(img_result2)
+
+    print(img_result)
+    '''
+    [['yjsldxbd-06-14760-0.jpg', 'yjsldxbd-06-6960-0.jpg', 'yjsldxbd-06-14400-0.jpg', 'yjsldxbd-06-21720-0.jpg', 'yjsldxbd-07-1080-0.jpg', 'yjsldxbd-06-13560-0.jpg', 'yjsldxbd-06-30840-1.jpg', 'yjsldxbd-06-11520-0.jpg', 'yjsldxbd-07-1200-0.jpg', 'yjsldxbd-01-23760-0.jpg']]
+    '''
+    print(img_result2)
+    # 将截取的动漫头像暂存到本地
+    for i, h in enumerate(img_result2):
+        h.save("static/temp/{}-{}.png".format(key, i))
+
+    result_big_list = []
+    for j in range(result_size):
+        big_result = []
+        for i in img_result[j]:
+            result_list_i = {}
+            pathlist = re.split(r"[-\\.]", str(i))
+            result_list_i["name"] = names_dict[pathlist[0].upper()]
+            result_list_i["number"] = pathlist[1]
+            result_list_i["cutnum"] = pathlist[2]
+            result_list_i["headnum"] = pathlist[3]
+            result_list_i["path"] = "/static/" + pathlist[0].upper() + "/" \
+                                    + pathlist[0].upper() + "-"\
+                                    + pathlist[1] + "-"\
+                                    + pathlist[2] + ".jpg"
+            big_result.append(result_list_i)
+        result_big_list.append(big_result)
+
+    print(result_big_list)
+    return render(req, "result.html",
+                  {
+                      "key": key,
+                      "result_big_list": result_big_list,
+                      "size": result_size
+                  })
+
+
+def generate_key():
+    import random
+
+    time_stamp = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
+    for i in range(5):
+        time_stamp += random.choice('abcdefghijklmnopqrstuvwxyz')
+    return time_stamp
+
+
+def img_match(img):
+    # img -> PIL.Image
+    res = processor.recognize(img)
+    resp = []
+    print(res)
+
+    for i in res:
+        resp.append(processor.vgg_annoy_match(i.resize((60, 60))))
+    return resp, res
+

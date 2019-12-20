@@ -120,5 +120,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
+    '/Volumes/My Passport/video_resources/',
+    '/Volumes/My Passport/project/oral_frames/'
 )
 

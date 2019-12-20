@@ -16,11 +16,9 @@
 <form action="/upload-image/" enctype="multipart/form-data" id="upload-image" method="post">
     {% csrf_token %}
     <div id="pic">
-        <input style="position:absolute; left:35%; top:25%;border-radius: 15px / 30%;background-color:white;font-size: 20px;color:gray" type="file">
-
-    <img border="9" height="239" id = "tv" src="/static/shadow/tv.gif" style="position:absolute; left:37%; top:36%;border-radius: 15px;border-color: antiquewhite" width="300"/>
-
-    <input border="3" style="position:absolute; left:47%; top:85%;border-radius: 15px / 30%;border-color: antiquewhite;background-color:white;font-size: 20px;color:gray" type="submit">
+        <input style="position:absolute; left:35%; top:25%;border-radius: 15px / 30%;background-color:white;font-size: 20px;color:gray" type="file" name="images">
+        <img border="9" height="239" id = "tv" src="/static/shadow/tv.gif" style="position:absolute; left:37%; top:36%;border-radius: 15px;border-color: antiquewhite" width="300"/>
+        <input border="3" style="position:absolute; left:47%; top:85%;border-radius: 15px / 30%;border-color: antiquewhite;background-color:white;font-size: 20px;color:gray" type="submit">
 
     </div>
 </form>
