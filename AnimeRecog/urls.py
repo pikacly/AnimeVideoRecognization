@@ -21,4 +21,5 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/',views.index),#主页
+    path('open/',views.open),#打开图片
 ]
