@@ -1,36 +1,36 @@
-#番剧名 - 集数 - 帧数 - 序号
+# 番剧名 - 集数 - 帧数 - 序号
 import re
 from collections import defaultdict
 
 import matplotlib.image as mpimg  # mpimg 用于读取图片
-from django.shortcuts import render
 
-from .models import *
-from .routine_task import *
+# lena = mpimg.imread('lena.png')
 
-lena = mpimg.imread('lena.png')
-def result(req,result_list):
-    result_dict=defaultdict(dict)
+
+def result(req, result_list):
+
+    result_dict = defaultdict(dict)
     for i in result_list:
-        pathlist =re.split(r"-", str(i))
-        result_dict[i]["name"]=pathlist[0]
-        result_dict[i]["number"]=pathlist[1]
+        pathlist = re.split(r"-", str(i))
+        result_dict[i]["name"] = pathlist[0]
+        result_dict[i]["number"] = pathlist[1]
         result_dict[i]["cutnum"] = pathlist[2]
         result_dict[i]["headnum"] = pathlist[3]
-        result_dict[i]["path"]=i
+        result_dict[i]["path"] = i
     return render(req, result_list)
 
-def result1(req,i):
+
+def result1(req, i):
     pathlist = re.split(r"-", str(i))
-    result={}
-    result["name"]=pathlist[0]
-    result["number"]=pathlist[1]
+    result = {}
+    result["name"] = pathlist[0]
+    result["number"] = pathlist[1]
     result["cutnum"] = pathlist[2]
     result["headnum"] = pathlist[3]
-    result["path"] = str(i)#此处可以修改地址
-    pic= mpimg.imread(path1)
+    result["path"] = str(i)  # 此处可以修改地址
+    pic = mpimg.imread(path1)
 
-    return render(req, result,pic)
+    return render(req, result, pic)
 
 
 from django.core.files.base import ContentFile
@@ -63,7 +63,7 @@ def upload_image(request):
         img = request.FILES.get("images")
         image2 = Image.open(ContentFile(img.read()))
 
-        # image.save("static/test.jpg")
+        image2.save("static/test.jpg")
         res, time = img_match(image2)
         print(res)
 
@@ -77,7 +77,8 @@ def index(request):
     # 主页
     return render(request, 'index.html')
 
-def open(request):#打开图片
+
+def open_img(request): # 打开图片
     return render(request, 'open.html')
 
 

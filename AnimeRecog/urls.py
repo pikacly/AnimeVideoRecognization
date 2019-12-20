@@ -21,9 +21,8 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/',views.index),#主页
-    path('open/',views.open),#打开图片
-    path('result/<list:result_list>/',result, name='result'),
-    path('result_detail',result_detail, name='exception_handle_process'),
+    path('index/', views.index), # 主页
+    path('open/', views.open_img), # 打开图片
+    # path('result_detail', views.result_detail, name='exception_handle_process'),
 ]
 
