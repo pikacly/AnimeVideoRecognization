@@ -5,10 +5,10 @@ Created on Sat Dec 22 12:30:21 2018
 @author: wmy
 """
 
-import os
-
 import glob
+import os
 from PIL import Image
+from imagehash import average_hash
 
 from predict import YOLO, predict_testset, predict_valset, predict_trainset
 
