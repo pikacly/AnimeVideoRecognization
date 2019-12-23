@@ -1,0 +1,26 @@
+*{ margin:0; padding:0;}
+body,p,form,input,button,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6{margin:0;padding:0;}
+
+a.hover{
+	text-decoration: none;
+}
+em, i{font-style: normal;}
+ul, ol, li{list-style: none;}
+img{ border:none;vertical-align:middle;}
+input,button,select,textarea{outline:none;border:none;background:none;}
+textarea{resize:none;}
+.clearfix:after {
+	content: '';
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.clearfix {
+	zoom: 1;
+}
+.hide {display: none;}
+.fl {float: left;}
+.fr {float: right;}
+.w {width: 1200px;margin: 0 auto;}
+.w1 {width: 1020px;margin: 0 auto;}

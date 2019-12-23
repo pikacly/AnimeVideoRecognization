@@ -16,14 +16,17 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('index/', views.index),
-    path('open/', views.open_img),
+    path('', views.index),
+    path('index/', views.open_img),
     path('upload-image/', views.upload_image),
-    path('result/', views.result),
+    path('result', views.result),
+    path('result-advanced', views.result_advanced),
+    path('test/', views.test),
+    url('stream/', views.stream_video),
 ]
 

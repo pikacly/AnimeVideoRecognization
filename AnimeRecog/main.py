@@ -15,16 +15,16 @@ class Processor(object):
         self.yolo = YOLO()
         print("*" * 6 + "yolo loaded" + "*" * 6)
 
-        self.img_size0 = 60
+        self.img_size0 = 120
         self.vgg16_model = VGG16(weights='imagenet', include_top=False)
         self.vgg16_graph = tf.get_default_graph()
         print("*" * 6 + "vgg16 model loaded" + "*" * 6)
 
-        self.a = AnnoyIndex(512)  # fixed
-        self.a.load("../data/models/faces_60.ann")
+        self.a = AnnoyIndex(9 * 512)  # fixed
+        self.a.load("../data/models/faces_{}.ann".format(self.img_size0))
         print("*" * 6 + "AnnoyIndex loaded" + "*" * 6)
 
-        self.d = pickle.load(open("../data/dicts/faces_60.dict", "rb"))
+        self.d = pickle.load(open("../data/dicts/faces_{}.dict".format(self.img_size0), "rb"))
         pass
 
     def recognize(self, img) -> tuple:
@@ -33,34 +33,30 @@ class Processor(object):
         # return: PIL.Image
         res = []
 
-        start = time.time()
         boxes, scores = self.yolo.detect_image(img)
-        print(boxes)
 
         for i, box in enumerate(boxes):
             top, left, bottom, right = box
             cropped = img.crop((left, top, right, bottom))
             res.append(cropped)
-        end = time.time()
-        print("cost {}s".format(end - start))
 
         return res
 
-    def vgg_annoy_match(self, img):
+    def vgg_annoy_match(self, img, img_size=None, a=None, d=None, count=100):
         if img.mode.lower() != "rgb":
             img = img.convert("RGB")
-        elif img.size != (self.img_size0, self.img_size0):
-            img = img.resize((self.img_size0, self.img_size0))
+
+        img_size = self.img_size0 if img_size is None else img_size
+        if img.size != (img_size, img_size):
+            img = img.resize((img_size, img_size))
 
         features = self.vgg16_extract_features(img)
         res = []
 
-        start = time.time()
-        for i in self.a.get_nns_by_vector(features.flatten().tolist(), 10):
-            # print(annoy_dict[i])
-            res.append(self.d[i])
-        end = time.time()
-        print("cost {}s".format(end - start))
+        a = self.a if a is None else a
+        d = self.d if d is None else d
+        for i in a.get_nns_by_vector(features.flatten().tolist(), count):
+            res.append(d[i])
 
         return res
 
@@ -74,6 +70,9 @@ class Processor(object):
         with self.vgg16_graph.as_default():
             features = self.vgg16_model.predict(x)
             return features
+
+    def match_by_name(self, img, name):
+        pass
 
 
 processor = Processor()

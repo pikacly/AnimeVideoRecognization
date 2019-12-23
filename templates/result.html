@@ -2,104 +2,214 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>open</title>
+    <title>预测结果页 - {{ key }}</title>
+    <!-- BEGIN VENDOR CSS-->
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/fonts/feather/style.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/fonts/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/vendors/css/extensions/pace.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/vendors/css/extensions/unslider.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/vendors/css/weather-icons/climacons.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/fonts/meteocons/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/vendors/css/charts/morris.css">
+    <!-- END VENDOR CSS-->
+    <!-- BEGIN STACK CSS-->
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/css/colors.css">
+    <!-- END STACK CSS-->
+
+    <style>
+        #header {
+            font-size: 65px;
+            color: #f45a8d;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        #header p {
+            background: url('/static/shadow/b.png') no-repeat 50%;
+            height: 100px;
+        }
+
+        .details {
+            text-align: center;
+        }
+
+        .table-line:hover {
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .face {
+            width: 60px;
+        }
+
+        .gray {
+            filter: grayscale(100%);
+        }
+
+        .face:hover {
+            cursor: pointer;
+        }
+
+        .anime:hover {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body style="background-color:#f45a8d;">
-<div id="base">
-    <div id="question"
-         style="position:absolute; left:57%; top:20%;font-size:35px;margin-top: -150px;margin-left: -350px;color:#f45a8d;z-index: 999">
-        <h1>
-            Who are you?
-        </h1>
-    </div>
-    <img border="4" id="b" src="/static/shadow/b.png"
-         style="position:absolute; left:20%; top:3%;border-radius: 10px;border-color: antiquewhite"/>
-</div>
-
-<div class="breadcrumbs">
-    <div class="breadcrumbs-inner">
-        <div class="row m-0">
-            <div class="col-sm-4">
-                <div class="page-header float-left">
-                    <div class="page-title">
-                        <h1>动漫视频检索 &emsp;&emsp;&emsp;</h1>
-                    </div>
-                </div>
+<div class="app-content content container-fluid">
+    <div class="content-wrapper">
+        <div class="content-header mb-1">
+            <div id="header">
+                <p>Who are you?</p>
             </div>
-            <div class="col-sm-8">
-                <div class="page-header float-right">
-                    <div class="page-title">
-                        <ol class="breadcrumb text-right">
-                            <li><a>主页</a></li>
-                        </ol>
-                    </div>
+            <div class="row" style="font-size: 20px">
+                <div class="col-xl-8">
+                    <span style="color: #185a82">动漫视频检索 - 此次耗时{{ time }}s.</span>
+                </div>
+                <div class="col-xl-4">
+                    <span style="float: right">
+                        <a href="/index" style="color: #185a82"><i class="fa fa-reply-all"></i>返回</a>
+                    </span>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="content">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>检索结果查看</h4>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <h3 class="card-title">概览</h3>
+                        </div>
+                        <div class="card-body pb-0">
+                            <div class="row mb-1 text-center">
+                                <div class="col-xl-6">
+                                    <img src={{ key_path }} class="width-400 mb-1">
+                                    <h5>本次检测的图像</h5>
+                                </div>
+                                <div class="col-xl-6">
+                                    <h5>本次检测出的动漫头像&nbsp;<i class="fa fa-question-circle" title="点击头像进行切换详情"></i></h5>
+                                    <hr>
+                                    <div class="row" id="faces">
+                                        {% for face in face_list %}
+                                        <div class="col-xl-2">
+                                            <img class="face gray" src={{ face }}>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <h5 class="mt-1">本次检测出的番剧名&nbsp;<i class="fa fa-question-circle" title="点击番剧名可进行进一步解析"></i></h5>
+                                    <hr>
+                                    <div id="animes" style="text-align: left">
+                                        {% for key, value in count.items %}
+                                            <span class="tag bg-blue-grey mr-1 mb-1 anime" data-name={{ key }}>{{ key }} - {{ value }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="tab-pane fade show active" id="pills-seg" role="tabpanel"
-                         aria-labelledby="pills-seg-tab">
-                        <div class="card-header">动漫视频{{order.number}}</div>
-                        <div class="table-stats order-table ov-h" style="width: 60%; float:left; display: inline-block">
-                            <h4>已上传图片检测出来的头如下：</h4>
-                            {% for head in headlist %}
-                            <img src=head>
-                            {% endfor %}
-
-                            <h4>检测结果如下：</h4>
-                            {% for result_list in result_big_list %}
-                            <video id="video" controls>
-                                <!--                                        <source src="{{i.video}}" type="video/mp4">-->
-                            </video>
-                            <script>
-                                let video = document.getElementById("video");
-                                video.oncanplay(e => {
-                                    video.currentTime = 50; // 控制播放进度
-                                    video.play();
-                                })
-                            </script>
-
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th class="serial">#</th>
-                                    <th class="avatar">番剧名</th>
-                                    <th>集数</th>
-                                    <th>帧数</th>
-                                    <th>人脸序号</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for i in result_list %}
-                                <tr>
-                                    <td class="serial">{{ forloop.counter }}.</td>
-                                    <td> {{i.name}}</td>
-                                    <td><span class="name">{{i.number}}</span></td>
-                                    <td>{{i.cutnum}}</td>
-                                    <td><span class="product">{{i.headnum}}</span></td>
-                                    <td><img src={{i.path}} style="width: 400px"></td>
-                                </tr>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <h4 class="card-title">详情&nbsp;<i class="fa fa-question-circle" title="点击对应的行切换视频播放"></i></h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="details">
+                                <video id="video" controls="controls" class="width-700 mb-1">
+                                    <source src="" type="video/mp4">
+                                </video>
+                                {% for result_list in result_big_list %}
+                                <table class="table table-hover hidden" data-number={{ forloop.counter }}>
+                                    <thead>
+                                    <tr class="table-title">
+                                        <th class="serial">#</th>
+                                        <th>番剧名</th>
+                                        <th>集数</th>
+                                        <th>帧数</th>
+                                        <th>估算时长</th>
+                                        <th>帧数图像</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for i in result_list %}
+                                    <tr class="table-line" value={{ i.video_path }} frame={{ i.cutsecond }}>
+                                        <td class="serial">{{ forloop.counter }}.</td>
+                                        <td> {{ i.name }}</td>
+                                        <td><span class="name">{{ i.number }}</span></td>
+                                        <td>{{ i.cutnum }}</td>
+                                        <td><span class="product">{{ i.time }}</span></td>
+                                        <td><img src={{i.path}} style="width: 270px"></td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                                 {% endfor %}
-                                </tbody>
-                            </table>
-                            {% endfor %}
-                        </div> <!-- /.table-stats -->
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- BEGIN VENDOR JS-->
+<script src="/static/app-assets/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+<script src="/static/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+<!-- BEGIN VENDOR JS-->
+<!-- BEGIN PAGE VENDOR JS-->
+<script src="/static/app-assets/vendors/js/charts/raphael-min.js" type="text/javascript"></script>
+<script src="/static/app-assets/vendors/js/charts/morris.min.js" type="text/javascript"></script>
+<script src="/static/app-assets/vendors/js/extensions/unslider-min.js" type="text/javascript"></script>
+<script src="/static/app-assets/vendors/js/timeline/horizontal-timeline.js" type="text/javascript"></script>
+<!-- END PAGE VENDOR JS-->
+<!-- BEGIN STACK JS-->
+<script src="/static/app-assets/js/core/app-menu.js" type="text/javascript"></script>
+<script src="/static/app-assets/js/core/app.js" type="text/javascript"></script>
+<!-- END STACK JS-->
+<!-- BEGIN PAGE LEVEL JS-->
+<script>
+    $(function () {
+        $(".table-line").click(function () {
+            let path = $(this).attr("value");
+            let currentTime = $(this).attr("frame");
+
+            let video = document.getElementById("video");
+            video.src = "stream?path=" + path;
+            video.play();
+            video.currentTime = currentTime;
+            video.pause();
+
+            window.location.href = "#video";
+        });
+
+        $(".face").bind("click", function () {
+            $(".face").addClass("gray");
+            $(this).removeClass("gray");
+
+            let parent = $(this).parent();
+            let number = $("#faces").children().index(parent);
+
+            let tables = $(".details table");
+            tables.addClass("hidden");
+            $(tables[number]).removeClass("hidden");
+        });
+
+        $(".face")[0].click();
+
+        $(".anime").bind("click", function () {
+            window.open("result-advanced?key={{key}}" + "&name=" + $(this).attr("data-name"))
+        })
+    })
+</script>
+
+<!-- END PAGE LEVEL JS-->
 </body>
 </html>

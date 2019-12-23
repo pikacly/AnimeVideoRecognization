@@ -120,7 +120,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'media'),
     '/Volumes/My Passport/video_resources/',
     '/Volumes/My Passport/project/oral_frames/'
 )
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 102400
+DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800
 

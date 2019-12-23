@@ -1,28 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zn-CN">
 <head>
     <meta charset="UTF-8">
-    <title>open</title>
+    <title>用户上传番剧截图</title>
+    <!-- BEGIN VENDOR CSS-->
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/fonts/feather/style.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/fonts/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/vendors/css/extensions/pace.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/vendors/css/extensions/unslider.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/vendors/css/weather-icons/climacons.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/fonts/meteocons/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/vendors/css/charts/morris.css">
+    <!-- END VENDOR CSS-->
+    <!-- BEGIN STACK CSS-->
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/css/colors.css">
+    <!-- END STACK CSS-->
+
+    <!-- Begin PAGE LEVEL CSS-->
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/css/core/colors/palette-gradient.css">
+    <link rel="stylesheet" type="text/css" href="/static/app-assets/css/plugins/extensions/toastr.css">
+    <style>
+        #header {
+            font-size: 65px;
+            color: #f45a8d;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        #header p {
+            background: url('/static/shadow/b.png') no-repeat 50%;
+            height: 100px;
+        }
+    </style>
 </head>
 <body style="background-color:#f45a8d;">
-<div id="base">
-     <div id="question" style="position:absolute; left:57%; top:20%;font-size:35px;margin-top: -150px;margin-left: -350px;color:#f45a8d;z-index: 999">
-        <h1>
-            Who are you?
-        </h1>
+<div class="app-content content container-fluid">
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div id="header">
+                <p>Who are you?</p>
+            </div>
+        </div>
+        <div class="content-body">
+            <form action="/upload-image/" enctype="multipart/form-data" id="upload-image" method="post">
+                {% csrf_token %}
+                <div class="row text-center mt-2">
+                    <div class="col-xl-12">
+                        <img id="upload-img" style="height: 500px" src="/static/shadow/tv.gif"/>
+                    </div>
+                    <div class="col-xl-12 mt-1">
+                        <button id="upload-btn" type="button" class="btn btn-info btn-min-width mr-1">上传图片</button>
+                        <button id="submit-btn" type="button" class="btn btn-warning btn-min-width">预测</button>
+                    </div>
+                    <input id="upload" type="file" name="images" style="display: none">
+                    <input id="key" type="hidden" value="" name="key">
+                </div>
+            </form>
+        </div>
+        <div class="content-footer"></div>
     </div>
-    <img border="4" id = "b" src="/static/shadow/b.png" style="position:absolute; left:20%; top:3%;border-radius: 10px;border-color: antiquewhite"/>
-    </div>
-<form action="/upload-image/" enctype="multipart/form-data" id="upload-image" method="post">
-    {% csrf_token %}
-    <div id="pic">
-        <input style="position:absolute; left:35%; top:25%;border-radius: 15px / 30%;background-color:white;font-size: 20px;color:gray" type="file" name="images">
-        <img border="9" height="239" id = "tv" src="/static/shadow/tv.gif" style="position:absolute; left:37%; top:36%;border-radius: 15px;border-color: antiquewhite" width="300"/>
-        <input border="3" style="position:absolute; left:47%; top:85%;border-radius: 15px / 30%;border-color: antiquewhite;background-color:white;font-size: 20px;color:gray" type="submit">
+</div>
 
-    </div>
-</form>
+<!-- BEGIN VENDOR JS-->
+<script src="/static/app-assets/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+<script src="/static/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+<!-- BEGIN VENDOR JS-->
+<!-- BEGIN PAGE VENDOR JS-->
+<script src="/static/app-assets/vendors/js/charts/raphael-min.js" type="text/javascript"></script>
+<script src="/static/app-assets/vendors/js/charts/morris.min.js" type="text/javascript"></script>
+<script src="/static/app-assets/vendors/js/extensions/unslider-min.js" type="text/javascript"></script>
+<script src="/static/app-assets/vendors/js/timeline/horizontal-timeline.js" type="text/javascript"></script>
+<!-- END PAGE VENDOR JS-->
+<!-- BEGIN STACK JS-->
+<script src="/static/app-assets/js/core/app-menu.js" type="text/javascript"></script>
+<script src="/static/app-assets/js/core/app.js" type="text/javascript"></script>
+<!-- END STACK JS-->
+<!-- BEGIN PAGE LEVEL JS-->
+<script src="/static/app-assets/js/scripts/extensions/toastr.js" type="text/javascript"></script>
+<script src="/static/app-assets/js/scripts/extensions/block-ui.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL JS-->
+<script>
+    $(function () {
+        $("#upload-btn").click(() => $("#upload").click());
+        $("#upload").change(() => {
+            $.blockUI({
+                message: "等待图片上传完成...",
+                css: {
+                    "font-size": "25px",
+                }
+            });
+            let data = new FormData();
+            data.append("image", document.getElementById("upload").files[0]);
+            data.append("csrfmiddlewaretoken", $("input[name=csrfmiddlewaretoken]").val());
 
-
+            $.ajax({
+                type: "post",
+                url: "/upload-image/",
+                data: data,
+                processData: false,
+                contentType : false,
+                success: function (key) {
+                    $.unblockUI();
+                    $("#upload-img").attr("src", "/static/images/" + key + ".png");
+                    $("#key").val(key);
+                },
+                error: function (e) {
+                    $.unblockUI();
+                    console.log(e);
+                }
+            })
+        })
+        $("#submit-btn").click(() => window.location.href = "/result?key=" + $("#key").val())
+    })
+</script>
 </body>
 </html>
